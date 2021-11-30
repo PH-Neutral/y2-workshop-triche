@@ -4,6 +4,9 @@ using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class Track : MonoBehaviour {
+    public bool isLooping;
+    [SerializeField] Vector3[] leftPoints, rightPoints;
+    public int PointCount { get => leftPoints.Length; }
 
     MeshFilter _mf;
     MeshRenderer _mr;
@@ -13,12 +16,84 @@ public class Track : MonoBehaviour {
         _mr = GetComponent<MeshRenderer>();
     }
 
-    public void Setup(Mesh mesh, Material mat) {
+    public void SetupRendering(Mesh mesh, Material mat) {
         _mf = GetComponent<MeshFilter>();
         _mr = GetComponent<MeshRenderer>();
 
         _mf.mesh = mesh;
         _mr.materials = new Material[] { mat };
+    }
+    public void Setup(TrackPoint[] points, bool isLooping) {
+        this.isLooping = isLooping;
+        List<Vector3> leftList = new List<Vector3>();
+        List<Vector3> rightList = new List<Vector3>();
+        TrackPoint tp;
+        int posArrayLength;
+        for(int i = 0; i < points.Length; i++) {
+            tp = points[i];
+            posArrayLength = Mathf.Max(tp.leftPoints.Length, tp.rightPoints.Length);
+            for(int j = 0; j < posArrayLength; j++) {
+                if(isLooping && i == points.Length - 1 && j == posArrayLength - 1) {
+                    break;
+                }
+                leftList.Add(tp.GetPointLooped(false, j));
+                rightList.Add(tp.GetPointLooped(true, j));
+            }
+        }
+        leftPoints = leftList.ToArray();
+        rightPoints = rightList.ToArray();
+    }
+
+    public float GetDistance((int index, float percent) floatIndex0, (int index, float percent) floatIndex1, 
+        float widthPercent, bool isMainDir = true) {
+        int startIndex = isMainDir ? floatIndex0.index : floatIndex1.index;
+        int endIndex = isMainDir ? floatIndex1.index : floatIndex0.index;
+        int cutIndex = startIndex > endIndex ? PointCount : endIndex + 1;
+        int loopedIndex;
+        bool firstPart = startIndex > endIndex; // to reset the for as to keep the order of indexes
+        float distance = 0f;
+        Vector3 p0, p1;
+        for(int i = startIndex; i < cutIndex; i += isMainDir ? 1 : -1) {
+            loopedIndex = LoopIndex(i);
+            if(i == startIndex) {
+                p0 = GetPoint(loopedIndex, floatIndex0.percent, widthPercent);
+                p1 = GetPoint(loopedIndex + 1, 0f, widthPercent);
+                distance += Vector3.Distance(p0, p1);
+            } else if(i == endIndex) {
+                p0 = GetPoint(loopedIndex, 0f, widthPercent);
+                p1 = GetPoint(loopedIndex + 1, floatIndex1.percent, widthPercent);
+                distance += Vector3.Distance(p0, p1);
+            } else {
+                p0 = GetPoint(loopedIndex, 0f, widthPercent);
+                p1 = GetPoint(loopedIndex + 1, 0f, widthPercent);
+                distance += Vector3.Distance(p0, p1);
+            }
+            // end loop
+            if(firstPart && i == PointCount - 1) {
+                i = 0; cutIndex = endIndex;
+                firstPart = false;
+            }
+        }
+        return distance;
+    }
+    public float GetDistance1(int index, float widthPercent0, float widthPercent1) {
+        return Vector3.Distance(
+            GetPoint(LoopIndex(index), 0f, widthPercent0), 
+            GetPoint(LoopIndex(index + 1), 0f, widthPercent1));
+    }
+    public Vector3 GetPoint(int index, float percent, float widthPercent) => GetPoint((index, percent), widthPercent);
+    public Vector3 GetPoint((int index, float percent) floatIndex, float widthPercent) {
+        int i = floatIndex.index % PointCount;
+        if(i < 0) i += PointCount;
+        return Vector3.Lerp(
+            Vector3.Lerp(leftPoints[i], rightPoints[i], floatIndex.percent),
+            Vector3.Lerp(leftPoints[i + 1], rightPoints[i + 1], floatIndex.percent), 
+            widthPercent);
+    }
+    public int LoopIndex(int index) {
+        int i = index % PointCount; 
+        if(index < 0) index += PointCount;
+        return i;
     }
 }
 public struct TrackPoint {

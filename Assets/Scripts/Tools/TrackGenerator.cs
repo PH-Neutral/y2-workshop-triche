@@ -35,32 +35,37 @@ public class TrackGenerator : MonoBehaviour {
 
     public void Generate() {
         Debug.Log("Generating Track...");
+        // --- Initialize variables --- //
         Mesh mesh = new Mesh {
             name = $"{trackName} Mesh"
         };
-        // --- generate mesh (part by part) --- //
-        drawLines = new List<Vector3>();
-        drawNormals = new List<Vector3>();
-        //Debug.Log($"spline.ControlPointCount: {spline.ControlPointCount}; spline.Points.Length: {spline.Points.Length}");
         vertices = new List<Vector3>();
         triangles = new List<int>();
         normals = new List<Vector3>();
         uvs = new List<Vector2>();
 
+        // debug
+        drawLines = new List<Vector3>();
+        drawNormals = new List<Vector3>();
+
+        // --- Calculate Mesh Data --- //
+        List<TrackPoint> trackPoints = new List<TrackPoint>();
         TrackPoint lastPoint = CalculateTrackPoint(spline.isLooping ? spline.CurveCount : 0), point;
+        trackPoints.Add(lastPoint);
         for(int i = spline.isLooping ? 0 : 1; i <= spline.CurveCount; i++) {
             point = CalculateTrackPoint(i);
+            trackPoints.Add(point);
             MakeMeshPart(lastPoint, point);
             lastPoint = point;
         }
-        //Debug.Log($"vertices.Count = {vertices.Count}");
+        // --- Initialize Mesh --- //
         mesh.vertices = vertices.ToArray();
         mesh.triangles = triangles.ToArray();
         mesh.normals = normals.ToArray();
         mesh.uv = uvs.ToArray();
-        //RecalculateTangents(mesh);
+        mesh = RecalculateTangents(mesh);
 
-        // --- instantiate object in scene --- //
+        // --- instantiate object in scene with mesh --- //
         if(!createObject) return;
         Track track;
         if((track = GetComponentInChildren<Track>()) == null) {
@@ -68,7 +73,8 @@ public class TrackGenerator : MonoBehaviour {
             obj.transform.SetParent(transform, false);
             track = obj.AddComponent<Track>();
         }
-        track.Setup(mesh, copyMaterial ? Instantiate(baseMat) : baseMat);
+        track.SetupRendering( mesh, copyMaterial ? Instantiate(baseMat) : baseMat);
+        track.Setup(trackPoints.ToArray(), spline.isLooping);
     }
     void MakeMeshPart(TrackPoint point0, TrackPoint point1) {
         Vector3 p0LeftDown = point0.GetLeftEndDown(depth), p0RightDown = point0.GetRightEndDown(depth);
@@ -79,6 +85,8 @@ public class TrackGenerator : MonoBehaviour {
         Vector3 outward0Right = point0.RightEnd + halfDown - (point0.LeftEnd - point0.RightEnd).normalized * outerLength;
         Vector3 outward1Left = point1.LeftStart + halfDown + (point1.LeftStart - point1.RightStart).normalized * outerLength;
         Vector3 outward1Right = point1.RightStart + halfDown - (point1.LeftStart - point1.RightStart).normalized * outerLength;
+
+        // --- Make "straight" track part --- //
         if(point0.IsRightExt) {
             outward0Left = point0.LeftEnd + halfDown
                 + ((point0.LeftEnd - point0.RightEnd).normalized + (point0.LeftStart - point0.RightStart).normalized).normalized
@@ -107,6 +115,8 @@ public class TrackGenerator : MonoBehaviour {
         AddQuad(p0LeftDown, outward0Left, p1LeftDown, outward1Left);
         // side down
         AddQuad(p0RightDown, p0LeftDown, p1RightDown, p1LeftDown);
+
+        // --- Make "corner" track part --- //
         if(!point1.IsStraight) {
             if(cornerPrecision == 0) {
                 return;
@@ -148,29 +158,90 @@ public class TrackGenerator : MonoBehaviour {
     TrackPoint CalculateTrackPoint(int pointIndex) {
         Vector3 lastPoint, point, nextPoint, dirLast, dirNext;
         if(!spline.isLooping && pointIndex <= 0) {
+            // if 1st point of spline (if not looping)
             point = spline.GetPoint(pointIndex);
             nextPoint = spline.GetPoint(pointIndex + 1);
             lastPoint = point - (nextPoint - point);
         } else if(!spline.isLooping && pointIndex >= spline.CurveCount) {
+            // if last point of spline (if not looping)
             lastPoint = spline.GetPoint(pointIndex - 1);
             point = spline.GetPoint(pointIndex);
             nextPoint = point - (lastPoint - point);
         } else {
+            // if it's not a spline end
             lastPoint = spline.GetPoint(pointIndex - 1);
             point = spline.GetPoint(pointIndex);
             nextPoint = spline.GetPoint(pointIndex + 1);
         }
         dirLast = lastPoint - point; dirNext = nextPoint - point;
         float angle = Vector3.SignedAngle(dirLast, dirNext, Vector3.up);
-        //Debug.Log($"> Point n°{pointIndex}: [angle = {angle}]");
-
-        return MakeCorneredTrackPoint(point, dirLast, dirNext, angle);
+        if(Mathf.Abs(angle) == 180) {
+            // if the track and its neighbors are aligned => straight track
+            return MakeStraightTrackPart(point, dirLast, angle);
+        } else {
+            // if the track and its neighbors aren't aligned => corner
+            return MakeCornerTrackPart(point, dirLast, dirNext, angle);
+        }
+        //return GenerateTrackPoint(point, dirLast, dirNext, angle);
     }
-    TrackPoint MakeCorneredTrackPoint(Vector3 point, Vector3 dirLast, Vector3 dirNext, float trackAngle) {
+    TrackPoint MakeStraightTrackPart(Vector3 point, Vector3 dirLast, float angle) {
+        Vector3 startSideLeft = Quaternion.AngleAxis(90f, Vector3.up) * dirLast.normalized * HalfWidth;
+        // debug
+        drawLines.Add(point + startSideLeft);
+        drawLines.Add(point - startSideLeft);
+        // ---
+        return new TrackPoint(
+            center: point,
+            left: point + startSideLeft,
+            right: point - startSideLeft,
+            angle: angle
+            );
+    }
+    TrackPoint MakeCornerTrackPart(Vector3 point, Vector3 dirLast, Vector3 dirNext, float angle) {
+        Vector3 vSide = (dirLast.normalized + dirNext.normalized).normalized
+            * (HalfWidth / Mathf.Sin(Mathf.Abs(angle) * 0.5f * Mathf.Deg2Rad));
+        float extAngle = 180f - Mathf.Abs(angle);
+        float partAngle = extAngle / (cornerPrecision + 1f);
+        float angleOffset = cornerPrecision > 0 ? -extAngle * 0.5f : 0;
+
+        bool rightIsExt = angle >= 0;
+        Vector3[] leftPoints = new Vector3[rightIsExt || cornerPrecision == 0 ? 1 : 2 + cornerPrecision];
+        Vector3[] rightPoints = new Vector3[rightIsExt && cornerPrecision != 0 ? 2 + cornerPrecision : 1];
+        leftPoints[0] = point + vSide;
+        rightPoints[0] = point + vSide;
+        Vector3 segment;
+        for(int i = 0; i < Mathf.Max(rightPoints.Length, leftPoints.Length); i++) {
+            segment = Quaternion.AngleAxis(i * partAngle + angleOffset, rightIsExt ? Vector3.down : Vector3.up)
+                * -vSide * 2;
+            if(rightIsExt) {
+                rightPoints[i] = leftPoints[0] + segment;
+                // debug
+                drawLines.Add(leftPoints[0]);
+                drawLines.Add(rightPoints[i]);
+                // ---
+            } else {
+                leftPoints[i] = rightPoints[0] + segment;
+                // debug
+                drawLines.Add(leftPoints[i]);
+                drawLines.Add(rightPoints[0]);
+                // ---
+            }
+        }
+        return new TrackPoint(
+            center: point,
+            leftPoints: leftPoints,
+            rightPoints: rightPoints,
+            angle: angle
+            );
+    }
+    TrackPoint GenerateTrackPoint(Vector3 point, Vector3 dirLast, Vector3 dirNext, float trackAngle) {
         if(Mathf.Abs(trackAngle) == 180) {
+            // if the track point is aligned with last and next point
             Vector3 startSideLeft = Quaternion.AngleAxis(90f, Vector3.up) * dirLast.normalized * HalfWidth;
+            // debug
             drawLines.Add(point + startSideLeft);
             drawLines.Add(point - startSideLeft);
+            // ---
             return new TrackPoint(
                 center: point,
                 left: point + startSideLeft,
@@ -195,12 +266,16 @@ public class TrackGenerator : MonoBehaviour {
                     * -vSide * 2;
                 if(rightIsExt) {
                     rightPoints[i] = leftPoints[0] + segment;
+                    // debug
                     drawLines.Add(leftPoints[0]);
                     drawLines.Add(rightPoints[i]);
+                    // ---
                 } else {
                     leftPoints[i] = rightPoints[0] + segment;
+                    // debug
                     drawLines.Add(leftPoints[i]);
                     drawLines.Add(rightPoints[0]);
+                    // ---
                 }
             }
             return new TrackPoint(
@@ -217,7 +292,7 @@ public class TrackGenerator : MonoBehaviour {
         int i1 = AddVertice(bottomRight, normal, Vector2.right);
         int i2 = AddVertice(topLeft, normal, Vector2.up);
         int i3 = AddVertice(topRight, normal, Vector2.one);
-        triangles.Add(i0); //DebugQueueNormal()
+        triangles.Add(i0);
         triangles.Add(i2);
         triangles.Add(i1);
         triangles.Add(i1);
@@ -244,46 +319,7 @@ public class TrackGenerator : MonoBehaviour {
         return Vector3.Cross(dir1, dir2).normalized;
     }
 
-    void DebugQueueNormal(Vector3 vertex, Vector3 normal) {
-        drawNormals.Add(vertex);
-        drawNormals.Add(vertex + normal);
-    }
-
-    void DebugPoint(string name, Vector3 pos) {
-        Transform point = new GameObject(name).transform;
-        point.transform.position = pos;
-    }
-
-    private void OnDrawGizmos() {
-        if(!showGizmos) return;
-
-        Color defColor = Gizmos.color;
-        Gizmos.color = Color.cyan;
-        int cornerCount = (cornerPrecision + 2) * 2;
-        int offset = 2;
-        for(int i = 1; i < drawLines.Count; i += 2) {
-            Gizmos.DrawLine(drawLines[i], drawLines[i - 1]);
-            if((i - offset) % 2 == 1) {
-                if(i - offset > 1 && ((i - offset) % cornerCount) - 2 > 0) {
-                    Gizmos.DrawLine(drawLines[i], drawLines[i - 2]);
-                }
-                if(i - offset > 0 && (i - offset) % cornerCount == 1) {
-                    Gizmos.color = Color.red;
-                    Gizmos.DrawLine(drawLines[i], drawLines[i - 3]);
-                    Gizmos.DrawLine(drawLines[i - 1], drawLines[i - 2]);
-                    Gizmos.color = Color.cyan;
-                }
-            }
-        }
-        Gizmos.color = Color.green;
-        for(int i = 0; i < drawNormals.Count; i += 2) {
-            Gizmos.DrawLine(drawNormals[i], drawNormals[i + 1]);
-        }
-
-        Gizmos.color = defColor;
-    }
-
-    public static void RecalculateTangents(Mesh mesh) {
+    public static Mesh RecalculateTangents(Mesh mesh) {
         int triangleCount = mesh.triangles.Length / 3;
         int vertexCount = mesh.vertices.Length;
 
@@ -336,6 +372,35 @@ public class TrackGenerator : MonoBehaviour {
             tangents[a].w = (Vector3.Dot(Vector3.Cross(n, t), tan2[a]) < 0.0f) ? -1.0f : 1.0f;
         }
         mesh.tangents = tangents;
+        return mesh;
     }
 
+    private void OnDrawGizmos() {
+        if(!showGizmos) return;
+
+        Color defColor = Gizmos.color;
+        Gizmos.color = Color.cyan;
+        int cornerCount = (cornerPrecision + 2) * 2;
+        int offset = 2;
+        for(int i = 1; i < drawLines.Count; i += 2) {
+            Gizmos.DrawLine(drawLines[i], drawLines[i - 1]);
+            if((i - offset) % 2 == 1) {
+                if(i - offset > 1 && ((i - offset) % cornerCount) - 2 > 0) {
+                    Gizmos.DrawLine(drawLines[i], drawLines[i - 2]);
+                }
+                if(i - offset > 0 && (i - offset) % cornerCount == 1) {
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawLine(drawLines[i], drawLines[i - 3]);
+                    Gizmos.DrawLine(drawLines[i - 1], drawLines[i - 2]);
+                    Gizmos.color = Color.cyan;
+                }
+            }
+        }
+        Gizmos.color = Color.green;
+        for(int i = 0; i < drawNormals.Count; i += 2) {
+            Gizmos.DrawLine(drawNormals[i], drawNormals[i + 1]);
+        }
+
+        Gizmos.color = defColor;
+    }
 }

@@ -38,7 +38,6 @@ public class SurveillanceCamera : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(IsPlayerInCaution);
         if (Physics.SphereCast(transform.position, sightRadius, Vector3.down, out hit, 200, 1<< LayerMask.NameToLayer("Player")))
         {
             IsPlayerInSight = true;

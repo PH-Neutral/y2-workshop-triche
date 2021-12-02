@@ -16555,7 +16555,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pushTime: 0.2
   pushSpeed: 20
-  leftKickAnimator: {fileID: 0}
 --- !u!114 &1811944556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21821,7 +21820,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 119
+    m_Bits: 1911
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

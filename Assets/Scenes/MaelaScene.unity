@@ -1598,11 +1598,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bff4ecbe168c9b4184354763f9c4079, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioMixer: {fileID: 24100000, guid: 0e72b937232621a4fbb7cdc2c398f4b6, type: 2}
   sounds:
-  - audioMixer: {fileID: 24100000, guid: 0e72b937232621a4fbb7cdc2c398f4b6, type: 2}
-    name: Theme
+  - name: Theme
     clip: {fileID: 8300000, guid: 9fd429f9703c9a241a1908103a6fb911, type: 3}
-    playlist: []
     volume: 1
     pitch: 0.5
     loop: 1
@@ -3489,7 +3488,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 50
+    m_FontSize: 20
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 0
@@ -3503,7 +3502,8 @@ MonoBehaviour:
   m_Text: "\nConception: Pierre-Ho\xEBl Charny, Arthur Gicquel, Alexandre Delbecque,
     Maela Le Gall\r\n\nGraphisme: Kenney, https://www.kenney.nl/assets?q=3d\n\t\t\t-City
     Kit (Commercial)\r\n-Survival Kit\r\n\t\t-City Kit (Suburban)\r\n-Space Kit\r\n-Nature
-    Kit\r\n-Car Kit\n\nMusiques:\n\nBruitages:"
+    Kit\r\n-Car Kit\n\nhttps://assetstore.unity.com/packages/3d/props/exterior/low-poly-boat-yard-128856#content\n-Low
+    Poly Boat Yard\n\n\nMusiques: https://stock.adobe.com/fr/\n\nBruitages: https://freesound.org/people/Iwiploppenisse/sounds/\nhttps://lasonotheque.org/"
 --- !u!222 &1113603502
 CanvasRenderer:
   m_ObjectHideFlags: 0

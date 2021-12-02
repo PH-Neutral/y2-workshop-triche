@@ -11,6 +11,11 @@ public class Opponent : MonoBehaviour
 
 
 
+
+
+
+
+
     public void CallPush(bool left)
     {
         this.left = left;

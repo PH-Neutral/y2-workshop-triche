@@ -348,7 +348,7 @@ GameObject:
   - component: {fileID: 297717060}
   - component: {fileID: 297717063}
   - component: {fileID: 297717062}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10335,7 +10335,7 @@ GameObject:
   - component: {fileID: 653350189}
   - component: {fileID: 653350188}
   - component: {fileID: 653350187}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11023,7 +11023,7 @@ GameObject:
   - component: {fileID: 1106727040}
   - component: {fileID: 1106727041}
   - component: {fileID: 1106727042}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: ColliderRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11080,7 +11080,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1119403748}
   - component: {fileID: 1119403749}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: GogoGadgetoBoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16534,7 +16534,6 @@ GameObject:
   - component: {fileID: 1811944557}
   - component: {fileID: 1811944556}
   - component: {fileID: 1811944555}
-  - component: {fileID: 1811944554}
   m_Layer: 0
   m_Name: Opponent
   m_TagString: Untagged
@@ -16542,30 +16541,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1811944554
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1811944553}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79cb9615c54ec70479f03d3cff1f1b38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  axleInfos:
-  - left: {fileID: 1022343917}
-    right: {fileID: 792578563}
-    motor: 1
-    steering: 1
-  - left: {fileID: 456756188}
-    right: {fileID: 109259817}
-    motor: 1
-    steering: 0
-  maxMotorTorque: 2000
-  maxSteeringAngle: 15
-  leftKickAnimator: {fileID: 0}
 --- !u!114 &1811944555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16580,7 +16555,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pushTime: 0.2
   pushSpeed: 20
-  leftKickAnimator: {fileID: 0}
 --- !u!114 &1811944556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21846,7 +21820,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 119
+    m_Bits: 1911
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

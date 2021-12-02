@@ -6,7 +6,14 @@ public class Opponent : MonoBehaviour
 {
     [SerializeField] float pushTime = 1f;
     [SerializeField] float pushSpeed = 10f;
+
     bool left;
+
+
+
+
+
+
 
 
     public void CallPush(bool left)

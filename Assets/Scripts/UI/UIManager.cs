@@ -7,7 +7,7 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
-    public GameObject commands;
+    //public GameObject commands;
     public GameObject pausePanel;
     [SerializeField] GameObject loosePanel, winPanel;
     public static bool gameIsPaused;
@@ -25,7 +25,7 @@ public class UIManager : MonoBehaviour
     }
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Escape))
         {
             gameIsPaused = !gameIsPaused;
             PauseGame();
@@ -62,10 +62,10 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene(1); //Go to scene 1
     }
 
-    public void OnClick_Commands()  //Show game's commands
+    /*public void OnClick_Commands()  //Show game's commands
     {
         commands.SetActive(true);
-    }
+    }*/
 
     public void OnClick_Menu()
     {
@@ -73,8 +73,8 @@ public class UIManager : MonoBehaviour
     }
 
 
-    public void OnClick_Pause()
+    /*public void OnClick_Pause()
     {
         commands.SetActive(false);
-    }
+    }*/
 }

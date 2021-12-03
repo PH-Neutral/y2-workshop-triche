@@ -5,36 +5,56 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    public GameObject commands;
+    public static UIManager Instance;
+
+    //public GameObject commands;
     public GameObject pausePanel;
+    [SerializeField] GameObject loosePanel, winPanel;
     public static bool gameIsPaused;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
-
-    // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Escape))
         {
-            gameIsPaused = !gameIsPaused;
             PauseGame();
         }
     }
-    void PauseGame()
+    public void Loose()
+    {
+        Time.timeScale = 0f;
+        gameIsPaused = true;
+        loosePanel.SetActive(true);
+    }
+    public void Win()
+    {
+        Time.timeScale = 0f;
+        gameIsPaused = true;
+        winPanel.SetActive(true);
+    }
+    public void PauseGame()
     {
         if (gameIsPaused)
         {
             Time.timeScale = 0f;
             pausePanel.SetActive(true);
+            gameIsPaused = !gameIsPaused;
         }
         else
         {
             Time.timeScale = 1;
             pausePanel.SetActive(false);
+            gameIsPaused = !gameIsPaused;
         }
     }
 
@@ -43,10 +63,10 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene(1); //Go to scene 1
     }
 
-    public void OnClick_Commands()  //Show game's commands
+    /*public void OnClick_Commands()  //Show game's commands
     {
         commands.SetActive(true);
-    }
+    }*/
 
     public void OnClick_Menu()
     {
@@ -54,8 +74,8 @@ public class UIManager : MonoBehaviour
     }
 
 
-    public void OnClick_Pause()
+    /*public void OnClick_Pause()
     {
         commands.SetActive(false);
-    }
+    }*/
 }

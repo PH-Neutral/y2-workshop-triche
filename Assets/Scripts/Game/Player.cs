@@ -12,10 +12,12 @@ public class AxleInfo
 }
 public class Player : MonoBehaviour
 {
+    public bool isInSight;
     public List<AxleInfo> axleInfos;
-    public float maxMotorTorque, maxSteeringAngle;
-    [SerializeField] Animator leftKickAnimator;
+    public float maxMotorTorque, maxSteeringAngle, turboTorque;
+    [SerializeField] Animator leftKickAnimator, rightKickAnimator;
     [SerializeField] float motorToBrakeSensivity = 0.01f;
+    [SerializeField] GameObject smoke, fire;
 
     Vector3 lastPosition;
     private void Awake()
@@ -36,9 +38,35 @@ public class Player : MonoBehaviour
         float motor = maxMotorTorque * Input.GetAxis("Vertical");
         float steering = maxSteeringAngle * Input.GetAxis("Horizontal");
 
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            if (isInSight) UIManager.Instance.Loose();
+            leftKickAnimator.Play("KickLeft");
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (isInSight) UIManager.Instance.Loose();
+            rightKickAnimator.Play("KickRight");
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (isInSight) UIManager.Instance.Loose();
+            smoke.SetActive(false);
+            fire.SetActive(true);
+            maxMotorTorque += turboTorque;
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            if (isInSight) UIManager.Instance.Loose();
+            smoke.SetActive(true);
+            fire.SetActive(false);
+            maxMotorTorque -= turboTorque;
+        }
+
         foreach (AxleInfo a in axleInfos)
         {
-            Debug.Log("brake : " + (a.left.brakeTorque == 0 ? 0 : 1));
+            //Debug.Log("brake : " + (a.left.brakeTorque == 0 ? 0 : 1));
             Debug.Log("motor : " + (a.left.motorTorque == 0 ? 0 : 1));
             if (a.steering)
             {
@@ -59,7 +87,8 @@ public class Player : MonoBehaviour
                     else
                     {
                         //Debug.Log("A2");
-                        //a.left.motorTorque = a.right.motorTorque = 0;
+                        a.left.motorTorque = 0;
+                        a.right.motorTorque = 0;
                         a.left.brakeTorque = Mathf.Abs(motor);
                         a.right.brakeTorque = Mathf.Abs(motor);
                     }
@@ -76,7 +105,8 @@ public class Player : MonoBehaviour
                     else
                     {
                         //Debug.Log("B2");
-                        //a.left.motorTorque = a.right.motorTorque = 0;
+                        a.left.motorTorque = 0;
+                        a.right.motorTorque = 0;
                         a.left.brakeTorque = Mathf.Abs(motor);
                         a.right.brakeTorque = Mathf.Abs(motor);
                     }

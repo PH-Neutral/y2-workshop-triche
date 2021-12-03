@@ -5,17 +5,24 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
+    public static UIManager Instance;
+
     public GameObject commands;
     public GameObject pausePanel;
+    [SerializeField] GameObject loosePanel, winPanel;
     public static bool gameIsPaused;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
-
-    // Update is called once per frame
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Space))
@@ -23,6 +30,18 @@ public class UIManager : MonoBehaviour
             gameIsPaused = !gameIsPaused;
             PauseGame();
         }
+    }
+    public void Loose()
+    {
+        Time.timeScale = 0f;
+        gameIsPaused = true;
+        loosePanel.SetActive(true);
+    }
+    public void Win()
+    {
+        Time.timeScale = 0f;
+        gameIsPaused = true;
+        winPanel.SetActive(true);
     }
     void PauseGame()
     {

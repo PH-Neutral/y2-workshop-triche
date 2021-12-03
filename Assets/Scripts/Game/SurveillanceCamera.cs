@@ -6,6 +6,7 @@ public class SurveillanceCamera : MonoBehaviour
 {
     [SerializeField] Animator iconCamAnimator;
     [SerializeField] float sightRadius, cautionRadius;
+    [SerializeField] Player player;
 
     bool IsPlayerInSight
     {
@@ -15,7 +16,7 @@ public class SurveillanceCamera : MonoBehaviour
         }
         set
         {
-            _isPlayerInSight = value;
+            _isPlayerInSight = player.isInSight = value;
             iconCamAnimator.SetBool("InSight", value);
         }
     }

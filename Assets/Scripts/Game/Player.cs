@@ -14,9 +14,10 @@ public class Player : MonoBehaviour
 {
     public bool isInSight;
     public List<AxleInfo> axleInfos;
-    public float maxMotorTorque, maxSteeringAngle;
+    public float maxMotorTorque, maxSteeringAngle, turboTorque;
     [SerializeField] Animator leftKickAnimator, rightKickAnimator;
     [SerializeField] float motorToBrakeSensivity = 0.01f;
+    [SerializeField] GameObject smoke, fire;
 
     Vector3 lastPosition;
     private void Awake()
@@ -46,6 +47,21 @@ public class Player : MonoBehaviour
         {
             if (isInSight) UIManager.Instance.Loose();
             rightKickAnimator.Play("KickRight");
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (isInSight) UIManager.Instance.Loose();
+            smoke.SetActive(false);
+            fire.SetActive(true);
+            maxMotorTorque += turboTorque;
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            if (isInSight) UIManager.Instance.Loose();
+            smoke.SetActive(true);
+            fire.SetActive(false);
+            maxMotorTorque -= turboTorque;
         }
 
         foreach (AxleInfo a in axleInfos)

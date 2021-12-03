@@ -27,7 +27,6 @@ public class UIManager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            gameIsPaused = !gameIsPaused;
             PauseGame();
         }
     }
@@ -43,17 +42,19 @@ public class UIManager : MonoBehaviour
         gameIsPaused = true;
         winPanel.SetActive(true);
     }
-    void PauseGame()
+    public void PauseGame()
     {
         if (gameIsPaused)
         {
             Time.timeScale = 0f;
             pausePanel.SetActive(true);
+            gameIsPaused = !gameIsPaused;
         }
         else
         {
             Time.timeScale = 1;
             pausePanel.SetActive(false);
+            gameIsPaused = !gameIsPaused;
         }
     }
 

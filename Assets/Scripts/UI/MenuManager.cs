@@ -60,6 +60,7 @@ public class MenuManager : MonoBehaviour
 
     public void LoadScene(int sceneNumber)
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene(sceneNumber);
     }
     public void OnClick_Exit()
@@ -68,8 +69,13 @@ public class MenuManager : MonoBehaviour
     }
     public void Restart()
     {
+        Time.timeScale = 1;
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
+    }
+    public void CallPause()
+    {
+        UIManager.Instance.PauseGame();
     }
 
     public void SetMusicVolume(float volume)

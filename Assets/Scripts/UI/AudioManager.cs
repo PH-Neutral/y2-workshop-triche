@@ -6,7 +6,10 @@ public class AudioManager : MonoBehaviour
 {
     public AudioMixer audioMixer;
     public Sound[] sounds;
-    public float scene;
+    //public float scene;
+
+    [HideInInspector]
+    public float sfxVolume = -5;
 
     public static AudioManager instance;
     private void Awake()
@@ -30,11 +33,11 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    /*private void Start()
     {
         if(scene==0) Play("Theme");
         else Play("Theme2");
-    }
+    }*/
 
     public void Play(string name)
     {

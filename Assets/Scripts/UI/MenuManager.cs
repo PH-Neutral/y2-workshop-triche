@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 public class MenuManager : MonoBehaviour
 {
+    public AudioMixer audioMixer;
+
+    /*
     public GameObject informations;
     public GameObject commands;
     public GameObject crd;
@@ -50,5 +54,32 @@ public class MenuManager : MonoBehaviour
         commands.SetActive(false);
         crd.SetActive(false);
         informations.SetActive(false);
+    }
+    */
+    ////////////////////////////////////////////////////////////////////
+
+    public void LoadScene(int sceneNumber)
+    {
+        SceneManager.LoadScene(sceneNumber);
+    }
+    public void OnClick_Exit()
+    {
+        Application.Quit();
+    }
+    public void Restart()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(scene.name);
+    }
+
+    public void SetMusicVolume(float volume)
+    {
+        audioMixer.SetFloat("musicVolume", volume);
+        MusicManager.instance.musicVolume = volume;
+    }
+    public void SetSFXVolume(float volume)
+    {
+        audioMixer.SetFloat("sfxVolume", volume);
+        AudioManager.instance.sfxVolume = volume;
     }
 }

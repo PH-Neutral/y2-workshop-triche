@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     public bool isInSight;
     public List<AxleInfo> axleInfos;
     public float maxMotorTorque, maxSteeringAngle;
-    [SerializeField] Animator leftKickAnimator;
+    [SerializeField] Animator leftKickAnimator, rightKickAnimator;
     [SerializeField] float motorToBrakeSensivity = 0.01f;
 
     Vector3 lastPosition;
@@ -40,7 +40,12 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A))
         {
             if (isInSight) UIManager.Instance.Loose();
-            leftKickAnimator.Play("Kick");
+            leftKickAnimator.Play("KickLeft");
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (isInSight) UIManager.Instance.Loose();
+            rightKickAnimator.Play("KickRight");
         }
 
         foreach (AxleInfo a in axleInfos)

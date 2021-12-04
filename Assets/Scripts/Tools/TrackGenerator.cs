@@ -234,58 +234,6 @@ public class TrackGenerator : MonoBehaviour {
             angle: angle
             );
     }
-    TrackPoint GenerateTrackPoint(Vector3 point, Vector3 dirLast, Vector3 dirNext, float trackAngle) {
-        if(Mathf.Abs(trackAngle) == 180) {
-            // if the track point is aligned with last and next point
-            Vector3 startSideLeft = Quaternion.AngleAxis(90f, Vector3.up) * dirLast.normalized * HalfWidth;
-            // debug
-            drawLines.Add(point + startSideLeft);
-            drawLines.Add(point - startSideLeft);
-            // ---
-            return new TrackPoint(
-                center: point,
-                left: point + startSideLeft,
-                right: point - startSideLeft,
-                angle: trackAngle
-                );
-        } else {
-            Vector3 vSide = (dirLast.normalized + dirNext.normalized).normalized
-                * (HalfWidth / Mathf.Sin(Mathf.Abs(trackAngle) * 0.5f * Mathf.Deg2Rad));
-            float extAngle = 180f - Mathf.Abs(trackAngle);
-            float partAngle = extAngle / (cornerPrecision + 1f);
-            float angleOffset = cornerPrecision > 0 ? -extAngle * 0.5f : 0;
-
-            bool rightIsExt = trackAngle >= 0;
-            Vector3[] leftPoints = new Vector3[rightIsExt || cornerPrecision == 0 ? 1 : 2 + cornerPrecision];
-            Vector3[] rightPoints = new Vector3[rightIsExt && cornerPrecision != 0 ? 2 + cornerPrecision : 1];
-            leftPoints[0] = point + vSide;
-            rightPoints[0] = point + vSide;
-            Vector3 segment;
-            for(int i = 0; i < Mathf.Max(rightPoints.Length, leftPoints.Length); i++) {
-                segment = Quaternion.AngleAxis(i * partAngle + angleOffset, rightIsExt ? Vector3.down : Vector3.up)
-                    * -vSide * 2;
-                if(rightIsExt) {
-                    rightPoints[i] = leftPoints[0] + segment;
-                    // debug
-                    drawLines.Add(leftPoints[0]);
-                    drawLines.Add(rightPoints[i]);
-                    // ---
-                } else {
-                    leftPoints[i] = rightPoints[0] + segment;
-                    // debug
-                    drawLines.Add(leftPoints[i]);
-                    drawLines.Add(rightPoints[0]);
-                    // ---
-                }
-            }
-            return new TrackPoint(
-                center: point,
-                leftPoints: leftPoints,
-                rightPoints: rightPoints,
-                angle: trackAngle
-                );
-        }
-    }
     void AddQuad(Vector3 bottomLeft, Vector3 bottomRight, Vector3 topLeft, Vector3 topRight) {
         Vector3 normal = FindNormal(bottomRight - bottomLeft, topLeft - bottomLeft);
         int i0 = AddVertice(bottomLeft, normal, Vector2.zero);

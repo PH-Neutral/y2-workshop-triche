@@ -15,15 +15,6 @@ public class TrackMovement : MonoBehaviour {
         partPercent = startIndex - pointIndex;
     }
 
-    float MakeFloatIndex(int index, float percent) {
-        return index + percent;
-    }
-    (int index, float percent) UnmakeFloatIndex(float floatIndex) {
-        int pointIndex = Mathf.FloorToInt(startIndex);
-        float partPercent = startIndex - pointIndex;
-        return (pointIndex, partPercent);
-    }
-
     public void Move(Vector3 localMotion) {
         // convert localMotion in trackProgress
 

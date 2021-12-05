@@ -39,7 +39,7 @@ public class Player : MonoBehaviour
     */
     private void Update()
     {
-        Debug.Log(rigidbody.velocity.sqrMagnitude);
+        //Debug.Log(rigidbody.velocity.sqrMagnitude);
         float motor = maxMotorTorque * Input.GetAxis("Vertical");
         float steering = maxSteeringAngle * Input.GetAxis("Horizontal");
 

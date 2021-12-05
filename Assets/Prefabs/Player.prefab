@@ -5346,7 +5346,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b194201b42e91a84cad3735aacd0dbb1, type: 2}
+  - {fileID: 2100000, guid: d2314a393276afa448cb526e3253aea6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10150,7 +10150,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b194201b42e91a84cad3735aacd0dbb1, type: 2}
+  - {fileID: 2100000, guid: d2314a393276afa448cb526e3253aea6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10213,7 +10213,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2539820660808485780
 Transform:
   m_ObjectHideFlags: 0
@@ -14954,7 +14954,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cd2f8abaa64d9a54aa4476b0cb654684, type: 2}
+  - {fileID: 2100000, guid: a9d72cdbac9f25c43952fbdcc0c0b54b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -15196,7 +15196,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2539820661351682966
 Transform:
   m_ObjectHideFlags: 0
@@ -19937,7 +19937,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cd2f8abaa64d9a54aa4476b0cb654684, type: 2}
+  - {fileID: 2100000, guid: a9d72cdbac9f25c43952fbdcc0c0b54b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -20174,7 +20174,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3458246362623254462}
-  m_LocalRotation: {x: -0, y: -0.8525464, z: -0, w: 0.5226516}
+  m_LocalRotation: {x: 0, y: -0.85254437, z: 0, w: 0.52265495}
   m_LocalPosition: {x: 2.62, y: 0, z: -4.45}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
@@ -20246,7 +20246,7 @@ MonoBehaviour:
     right: {fileID: 2539820661501534944}
     motor: 1
     steering: 1
-  maxMotorTorque: 1000
+  maxMotorTorque: 50
   maxSteeringAngle: 15
   turboTorque: 500
   leftKickAnimator: {fileID: 2539820661732586809}
@@ -20255,8 +20255,8 @@ MonoBehaviour:
   maxSpeed: 10
   smoke: {fileID: 2539820660808485787}
   fire: {fileID: 2539820660602752090}
-  smoke2: {fileID: 2539820660808485787}
-  fire2: {fileID: 2539820660602752090}
+  smoke2: {fileID: 2539820661351682965}
+  fire2: {fileID: 2539820660773934395}
 --- !u!1 &4505894248527358893
 GameObject:
   m_ObjectHideFlags: 0

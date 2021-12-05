@@ -55,6 +55,7 @@ public class Grapple : MonoBehaviour {
         car.speed -= minusSpeed;
         yield return new WaitForSeconds(duration);
         car.speed += minusSpeed;
+        unstuck = true;
     }
 
     void PullBack(float dt) {

@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static FollowPath;
-using static UnityEditor.Experimental.SceneManagement.PrefabStage;
 
 public class TrackPath : MonoBehaviour {
     [System.Serializable]

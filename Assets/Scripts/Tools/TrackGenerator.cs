@@ -1,9 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
-using Color = UnityEngine.Color;
 
 public class TrackGenerator : MonoBehaviour {
     const string trackName = "Track";

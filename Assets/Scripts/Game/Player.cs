@@ -18,13 +18,15 @@ public class Player : MonoBehaviour
     public List<AxleInfo> axleInfos;
     public float maxMotorTorque, maxSteeringAngle, turboTorque;
     [SerializeField] Animator leftKickAnimator, rightKickAnimator;
-    [SerializeField] float motorToBrakeSensivity = 0.01f;
+    [SerializeField] float motorToBrakeSensivity = 0.01f, maxSpeed = 10;
     [SerializeField] GameObject smoke, fire, smoke2, fire2;
+    Rigidbody rigidbody;
 
     Vector3 lastPosition;
     private void Awake()
     {
         lastPosition = transform.position;
+        rigidbody = GetComponent<Rigidbody>();
     }
     /*
     private void Update()
@@ -37,6 +39,7 @@ public class Player : MonoBehaviour
     */
     private void Update()
     {
+        Debug.Log(rigidbody.velocity.sqrMagnitude);
         float motor = maxMotorTorque * Input.GetAxis("Vertical");
         float steering = maxSteeringAngle * Input.GetAxis("Horizontal");
 
@@ -49,6 +52,12 @@ public class Player : MonoBehaviour
         {
             if (isInSight) UIManager.Instance.Loose();
             rightKickAnimator.Play("KickRight");
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (isInSight) UIManager.Instance.Loose();
+            //Instantiate(grapple, spawn.position, transform.rotation, transform);
+            Instantiate(grapple, spawn.position, transform.rotation).Launch(spawn, 0); // Launch( , baseSpeed)
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -77,6 +86,8 @@ public class Player : MonoBehaviour
 
         foreach (AxleInfo a in axleInfos)
         {
+            a.left.motorTorque = 0;
+            a.right.motorTorque = 0;
             //Debug.Log("brake : " + (a.left.brakeTorque == 0 ? 0 : 1));
             //Debug.Log("motor : " + (a.left.motorTorque == 0 ? 0 : 1));
             if (a.steering)
@@ -91,9 +102,12 @@ public class Player : MonoBehaviour
                     //Debug.Log("A");
                     if (motor >= 0)
                     {
-                        //Debug.Log("A1");
-                        a.left.motorTorque = motor;
-                        a.right.motorTorque = motor;
+                        if (rigidbody.velocity.sqrMagnitude < maxSpeed || true)
+                        {
+                            //Debug.Log("A1");
+                            a.left.motorTorque = motor;
+                            a.right.motorTorque = motor;
+                        }
                     }
                     else
                     {
@@ -109,9 +123,12 @@ public class Player : MonoBehaviour
                     //Debug.Log("B");
                     if (motor <= 0)
                     {
-                        //Debug.Log("B1");
-                        a.left.motorTorque = motor;
-                        a.right.motorTorque = motor;
+                        if (rigidbody.velocity.sqrMagnitude < maxSpeed ||true)
+                        {
+                            //Debug.Log("B1");
+                            a.left.motorTorque = motor;
+                            a.right.motorTorque = motor;
+                        }
                     }
                     else
                     {

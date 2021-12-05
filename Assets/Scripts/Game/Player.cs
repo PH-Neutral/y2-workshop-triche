@@ -12,7 +12,7 @@ public class AxleInfo
 }
 public class Player : MonoBehaviour
 {
-    public GameObject grapple;
+    public Grapple grapple;
     public Transform spawn;
     public bool isInSight;
     public List<AxleInfo> axleInfos;
@@ -72,13 +72,13 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            Instantiate(grapple, spawn.position, transform.rotation);
+            Instantiate(grapple, spawn.position, transform.rotation).Launch(spawn, 0);
         }
 
         foreach (AxleInfo a in axleInfos)
         {
             //Debug.Log("brake : " + (a.left.brakeTorque == 0 ? 0 : 1));
-            Debug.Log("motor : " + (a.left.motorTorque == 0 ? 0 : 1));
+            //Debug.Log("motor : " + (a.left.motorTorque == 0 ? 0 : 1));
             if (a.steering)
             {
                 a.left.steerAngle = steering;

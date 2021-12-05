@@ -6,7 +6,7 @@ public class Opponent : MonoBehaviour
 {
     [SerializeField] FollowPath path;
     [SerializeField] bool rollBaby = false;
-    [SerializeField] float speed;
+    public float speed;
     [SerializeField] float pushTime = 1f;
     [SerializeField] float pushSpeed = 10f;
     int index = 0;

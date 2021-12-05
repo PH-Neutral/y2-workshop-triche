@@ -12,12 +12,14 @@ public class AxleInfo
 }
 public class Player : MonoBehaviour
 {
+    public GameObject grapple;
+    public Transform spawn;
     public bool isInSight;
     public List<AxleInfo> axleInfos;
     public float maxMotorTorque, maxSteeringAngle, turboTorque;
     [SerializeField] Animator leftKickAnimator, rightKickAnimator;
     [SerializeField] float motorToBrakeSensivity = 0.01f;
-    [SerializeField] GameObject smoke, fire;
+    [SerializeField] GameObject smoke, fire, smoke2, fire2;
 
     Vector3 lastPosition;
     private void Awake()
@@ -54,6 +56,8 @@ public class Player : MonoBehaviour
             if (isInSight) UIManager.Instance.Loose();
             smoke.SetActive(false);
             fire.SetActive(true);
+            smoke2.SetActive(false);
+            fire2.SetActive(true);
             maxMotorTorque += turboTorque;
         }
         if (Input.GetKeyUp(KeyCode.Space))
@@ -61,7 +65,14 @@ public class Player : MonoBehaviour
             if (isInSight) UIManager.Instance.Loose();
             smoke.SetActive(true);
             fire.SetActive(false);
+            smoke2.SetActive(true);
+            fire2.SetActive(false);
             maxMotorTorque -= turboTorque;
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Instantiate(grapple, spawn.position, transform.rotation);
         }
 
         foreach (AxleInfo a in axleInfos)
@@ -122,5 +133,19 @@ public class Player : MonoBehaviour
 
 
         lastPosition = transform.position;
+    }
+
+    IEnumerator Death()
+    {
+        yield return new WaitForSeconds(0.2f);
+        UIManager.Instance.Loose();
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Collision")
+        {
+            StartCoroutine(Death());
+        }
     }
 }

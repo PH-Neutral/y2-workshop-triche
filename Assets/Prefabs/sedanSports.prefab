@@ -20275,7 +20275,6 @@ GameObject:
   - component: {fileID: 3580310352960858792}
   - component: {fileID: 4426678455750295222}
   - component: {fileID: 3580310352960858799}
-  - component: {fileID: 3580310352960858793}
   m_Layer: 6
   m_Name: sedanSports
   m_TagString: Untagged
@@ -20333,8 +20332,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0567672, y: 0.15, z: 2.2882335}
-  m_Center: {x: 0.0013614893, y: 0.27, z: 0.0034416914}
+  m_Size: {x: 1.200896, y: 0.15000004, z: 2.2882335}
+  m_Center: {x: 0.07342589, y: 0.27, z: 0.0034416914}
 --- !u!114 &3580310352960858799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20344,34 +20343,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 4426678455750295223}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: beeedcc45b1371448817181cb4d441da, type: 3}
+  m_Script: {fileID: 11500000, guid: 4b028c107afff8d439a407c3ceff61b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
---- !u!114 &3580310352960858793
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4426678455750295223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79cb9615c54ec70479f03d3cff1f1b38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  grapple: {fileID: 0}
+  spawn: {fileID: 0}
   isInSight: 0
   axleInfos:
-  - left: {fileID: 3580310353094099944}
-    right: {fileID: 3580310353094099945}
-    motor: 1
-    steering: 1
   - left: {fileID: 3580310353094099950}
     right: {fileID: 3580310353094099951}
     motor: 1
     steering: 0
-  maxMotorTorque: 1000
+  - left: {fileID: 3580310353094099944}
+    right: {fileID: 3580310353094099945}
+    motor: 1
+    steering: 1
+  maxMotorTorque: 2000
   maxSteeringAngle: 15
+  turboTorque: 10
   leftKickAnimator: {fileID: 3580310352927675440}
   rightKickAnimator: {fileID: 3177490569544731298}
   motorToBrakeSensivity: 0.01

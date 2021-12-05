@@ -53,4 +53,27 @@ public class Opponent : MonoBehaviour
         timer = 0f; // tester ça là !
         StopAllCoroutines();
     }
+    IEnumerator Move()
+    {
+        yield return new WaitForSeconds(5);
+        if (speed < 10)
+        {
+            speed += 5;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Grapple")
+        {
+            speed = 0.5f;
+            StartCoroutine(Move());
+        }
+
+        if (other.gameObject.tag == "GoGoGadget")
+        {
+            speed = 0;
+            StartCoroutine(Move());
+        }
+    }
 }

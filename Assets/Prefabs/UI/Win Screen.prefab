@@ -315,10 +315,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5600296379109405144}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eca28d688b0e1c44a81a4b6742c332cd, type: 3}
+  m_Script: {fileID: 11500000, guid: b7a47e68475feb84b9dd51e1024e82e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioMixer: {fileID: 24100000, guid: a9c17d97eed04194491f7afd2e1a8305, type: 2}
+  audioMixer: {fileID: 0}
 --- !u!1 &5600296379576977906
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,9 +441,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5600296379109405150}
+      - m_Target: {fileID: 5600296379576977904}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
-        m_MethodName: LoadScene
+        m_MethodName: 
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -462,7 +462,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5600296379576977906}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eca28d688b0e1c44a81a4b6742c332cd, type: 3}
+  m_Script: {fileID: 11500000, guid: b7a47e68475feb84b9dd51e1024e82e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   audioMixer: {fileID: 24100000, guid: a9c17d97eed04194491f7afd2e1a8305, type: 2}
@@ -1179,7 +1179,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5600296379109405150}
+      - m_Target: {fileID: 5600296380712680150}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
         m_MethodName: Restart
         m_Mode: 1
@@ -1200,7 +1200,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5600296380712680144}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eca28d688b0e1c44a81a4b6742c332cd, type: 3}
+  m_Script: {fileID: 11500000, guid: b7a47e68475feb84b9dd51e1024e82e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioMixer: {fileID: 24100000, guid: a9c17d97eed04194491f7afd2e1a8305, type: 2}
+  audioMixer: {fileID: 0}

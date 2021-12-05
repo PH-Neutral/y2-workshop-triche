@@ -46,16 +46,19 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A))
         {
             if (isInSight) UIManager.Instance.Loose();
+            else AudioManager.instance.Play("PublicReaction");
             leftKickAnimator.Play("KickLeft");
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (isInSight) UIManager.Instance.Loose();
+            else AudioManager.instance.Play("PublicReaction");
             rightKickAnimator.Play("KickRight");
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
             if (isInSight) UIManager.Instance.Loose();
+            else AudioManager.instance.Play("PublicReaction");
             //Instantiate(grapple, spawn.position, transform.rotation, transform);
             Instantiate(grapple, spawn.position, transform.rotation).Launch(spawn, 0); // Launch( , baseSpeed)
         }
@@ -63,6 +66,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (isInSight) UIManager.Instance.Loose();
+            else AudioManager.instance.Play("PublicReaction");
             smoke.SetActive(false);
             fire.SetActive(true);
             smoke2.SetActive(false);
@@ -82,6 +86,11 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             Instantiate(grapple, spawn.position, transform.rotation).Launch(spawn, 0);
+        }
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            AudioManager.instance.Play("Horn");
         }
 
         foreach (AxleInfo a in axleInfos)

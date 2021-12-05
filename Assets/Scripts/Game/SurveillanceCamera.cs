@@ -34,6 +34,7 @@ public class SurveillanceCamera : MonoBehaviour
         }
     }
     bool _isPlayerInCaution;
+    bool lastIsPlayerInCaution = false;
     RaycastHit hit;
 
 
@@ -49,10 +50,11 @@ public class SurveillanceCamera : MonoBehaviour
             IsPlayerInSight = false;
             IsPlayerInCaution = true;
         }
-        else
+        else if (lastIsPlayerInCaution)
         {
             IsPlayerInCaution = IsPlayerInSight = false;
         }
+        lastIsPlayerInCaution = IsPlayerInCaution;
     }
     /*
     private void OnDrawGizmosSelected()

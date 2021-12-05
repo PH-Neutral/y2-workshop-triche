@@ -6,7 +6,7 @@ public class Opponent : MonoBehaviour
 {
     [SerializeField] FollowPath path;
     [SerializeField] bool rollBaby = false;
-    [SerializeField] float speed;
+    public float speed;
     [SerializeField] float pushTime = 1f;
     [SerializeField] float pushSpeed = 10f;
     int index = 0;
@@ -51,28 +51,24 @@ public class Opponent : MonoBehaviour
             yield return null;
         }
         timer = 0f; // tester ça là !
-        StopAllCoroutines();
+        //StopAllCoroutines();
     }
     IEnumerator Move()
     {
+        rollBaby = false;
         yield return new WaitForSeconds(5);
-        if (speed < 10)
-        {
-            speed += 5;
-        }
+        rollBaby = true;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Grapple")
         {
-            speed = 0.5f;
             StartCoroutine(Move());
         }
 
         if (other.gameObject.tag == "GoGoGadget")
         {
-            speed = 0;
             StartCoroutine(Move());
         }
     }

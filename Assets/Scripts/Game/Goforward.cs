@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class Goforward : MonoBehaviour
 {
+    [SerializeField] float lifeTime = 0.8f;
+    private void Awake()
+    {
+        StartCoroutine(nameof(Destroy));
+    }
+
+    IEnumerator Destroy()
+    {
+        yield return new WaitForSeconds(lifeTime);
+        Destroy(gameObject);
+    }
+    /*
     public float speed;
     public bool isCollide;
 
@@ -45,4 +57,5 @@ public class Goforward : MonoBehaviour
             StartCoroutine(Destroy2());
         }
     }
+    */
 }

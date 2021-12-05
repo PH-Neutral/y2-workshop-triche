@@ -443,7 +443,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5600296379576977904}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: LoadScene
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

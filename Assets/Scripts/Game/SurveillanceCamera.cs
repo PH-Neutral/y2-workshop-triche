@@ -41,6 +41,7 @@ public class SurveillanceCamera : MonoBehaviour
     {
         if (Physics.SphereCast(transform.position, sightRadius, Vector3.down, out hit, 200, 1<< LayerMask.NameToLayer("Player")))
         {
+            if(!IsPlayerInSight) AudioManager.instance.Play("Alarm");
             IsPlayerInSight = true;
         }
         else if (Physics.SphereCast(transform.position, cautionRadius, Vector3.down, out hit, 200,1<< LayerMask.NameToLayer("Player")))

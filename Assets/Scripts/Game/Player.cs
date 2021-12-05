@@ -50,6 +50,11 @@ public class Player : MonoBehaviour
             if (isInSight) UIManager.Instance.Loose();
             rightKickAnimator.Play("KickRight");
         }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (isInSight) UIManager.Instance.Loose();
+            Instantiate(grapple, spawn.position, transform.rotation, transform);
+        }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -70,10 +75,6 @@ public class Player : MonoBehaviour
             maxMotorTorque -= turboTorque;
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Instantiate(grapple, spawn.position, transform.rotation);
-        }
 
         foreach (AxleInfo a in axleInfos)
         {

@@ -31,7 +31,10 @@ public class MusicManager : MonoBehaviour
             s.source.volume = s.volume;
             s.source.pitch = s.pitch;
             s.source.loop = s.loop;
+            s.source.outputAudioMixerGroup = s.mixerGroup;
+            s.source.playOnAwake = s.playOnAwake;
         }
+        Play("Spitfire");
     }
 
     public void Play(string name)
@@ -39,10 +42,5 @@ public class MusicManager : MonoBehaviour
         Sound s = Array.Find(sounds, sound => sound.name == name);
         if (s == null) return;
         s.source.Play();
-    }
-
-    public void SetVolume(float volume)
-    {
-        audioMixer.SetFloat("Volume", volume);
     }
 }

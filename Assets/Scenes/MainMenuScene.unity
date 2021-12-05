@@ -2276,7 +2276,7 @@ MonoBehaviour:
       - m_Target: {fileID: 319340255}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
         m_MethodName: SetSFXVolume
-        m_Mode: 4
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2294,7 +2294,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 319340252}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eca28d688b0e1c44a81a4b6742c332cd, type: 3}
+  m_Script: {fileID: 11500000, guid: b7a47e68475feb84b9dd51e1024e82e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   audioMixer: {fileID: 24100000, guid: a9c17d97eed04194491f7afd2e1a8305, type: 2}
@@ -4283,7 +4283,7 @@ MonoBehaviour:
       - m_Target: {fileID: 566772573}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
         m_MethodName: SetMusicVolume
-        m_Mode: 4
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4301,7 +4301,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 566772570}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eca28d688b0e1c44a81a4b6742c332cd, type: 3}
+  m_Script: {fileID: 11500000, guid: b7a47e68475feb84b9dd51e1024e82e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   audioMixer: {fileID: 24100000, guid: a9c17d97eed04194491f7afd2e1a8305, type: 2}
@@ -5478,6 +5478,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 856012528}
+  - component: {fileID: 856012529}
   m_Layer: 0
   m_Name: Music Manager
   m_TagString: Untagged
@@ -5499,6 +5500,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &856012529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 856012527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edced540cb336324980a4766cc7c44fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioMixer: {fileID: 24100000, guid: a9c17d97eed04194491f7afd2e1a8305, type: 2}
+  sounds:
+  - name: Spitfire
+    clip: {fileID: 8300000, guid: 36b887c7f48eec047a602de2892f0845, type: 3}
+    mixerGroup: {fileID: 6173487578285162929, guid: a9c17d97eed04194491f7afd2e1a8305, type: 2}
+    volume: 0.8
+    pitch: 1
+    loop: 1
+    playOnAwake: 1
+    source: {fileID: 0}
+  musicVolume: -5
 --- !u!1 &859305517
 GameObject:
   m_ObjectHideFlags: 0
@@ -9200,7 +9224,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 6173487578285162929, guid: a9c17d97eed04194491f7afd2e1a8305, type: 2}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 36b887c7f48eec047a602de2892f0845, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -10017,6 +10041,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1789722330}
+  - component: {fileID: 1789722331}
   m_Layer: 0
   m_Name: SFX Manager
   m_TagString: Untagged
@@ -10038,6 +10063,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1789722331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1789722329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10dc3ba08ce8b68489597b1ae9ae118b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioMixer: {fileID: 24100000, guid: a9c17d97eed04194491f7afd2e1a8305, type: 2}
+  sounds:
+  - name: Alarm
+    clip: {fileID: 8300000, guid: 245cf888e628ef24a92f832a335141a3, type: 3}
+    mixerGroup: {fileID: 7963221931184992907, guid: a9c17d97eed04194491f7afd2e1a8305, type: 2}
+    volume: 1
+    pitch: 1
+    loop: 0
+    playOnAwake: 0
+    source: {fileID: 0}
+  - name: Horn
+    clip: {fileID: 8300000, guid: c41f53bd0d62e374ab0d6f1df77930ef, type: 3}
+    mixerGroup: {fileID: 7963221931184992907, guid: a9c17d97eed04194491f7afd2e1a8305, type: 2}
+    volume: 1
+    pitch: 1
+    loop: 0
+    playOnAwake: 0
+    source: {fileID: 0}
+  sfxVolume: -5
 --- !u!1 &1822021357
 GameObject:
   m_ObjectHideFlags: 0
@@ -10473,6 +10529,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1866546205}
   m_CullTransparentMesh: 1
+--- !u!1 &1877384485
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1877384487}
+  - component: {fileID: 1877384486}
+  m_Layer: 0
+  m_Name: SliderManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1877384486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1877384485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6412af21d9f01e842ab00fa8362f0018, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicSlider: {fileID: 566772572}
+  sfxSlider: {fileID: 319340254}
+--- !u!4 &1877384487
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1877384485}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1894935086
 GameObject:
   m_ObjectHideFlags: 0
